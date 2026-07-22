@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "version": 1,
+    "lastUpdated": "2026-07-22T18:00:00.000Z"
+  },
+  "profile": {
+    "name": "Developer",
+    "title": "Software Engineer in Training"
+  },
+  "journal": [
+    {
+      "id": "j-1",
+      "date": "2026-07-22",
+      "summary": "Designed the architecture and core modular views for DevJourney v0.1 personal OS.",
+      "hours": 3.5,
+      "tags": ["vanillajs", "architecture", "css"],
+      "createdAt": "2026-07-22T10:00:00.000Z"
+    },
+    {
+      "id": "j-2",
+      "date": "2026-07-21",
+      "summary": "Studied ES6 modules, custom events, and hash-based routing techniques.",
+      "hours": 2.0,
+      "tags": ["javascript", "es6", "routing"],
+      "createdAt": "2026-07-21T14:30:00.000Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "p-1",
+      "name": "DevJourney",
+      "description": "Personal developer operating system for tracking learning, projects, journal, and blockers.",
+      "status": "in-progress",
+      "progress": 50,
+      "repoUrl": "https://github.com/tasnim-farhan-fahim/devjourney",
+      "demoUrl": "https://tasnim-farhan-fahim.github.io/devjourney/",
+      "createdAt": "2026-07-22T08:00:00.000Z"
+    },
+    {
+      "id": "p-2",
+      "name": "Developer Portfolio",
+      "description": "Minimalist static portfolio website showcasing project case studies.",
+      "status": "planned",
+      "progress": 15,
+      "repoUrl": "",
+      "demoUrl": "",
+      "createdAt": "2026-07-20T08:00:00.000Z"
+    }
+  ],
+  "blockers": [
+    {
+      "id": "b-1",
+      "title": "LocalStorage state validation on JSON import",
+      "description": "Importing invalid JSON schema breaks application parsing.",
+      "whatWasTried": "Added basic JSON parse try/catch but missed schema structure validation.",
+      "status": "resolved",
+      "resolution": "Created schema validation utility before saving imported state.",
+      "createdAt": "2026-07-22T11:00:00.000Z",
+      "resolvedAt": "2026-07-22T12:00:00.000Z"
+    },
+    {
+      "id": "b-2",
+      "title": "Calculating streak with gaps in journal entries",
+      "description": "Streak counter needs to properly calculate consecutive active study days.",
+      "whatWasTried": "Sorting dates descending and comparing date differences in days.",
+      "status": "open",
+      "resolution": "",
+      "createdAt": "2026-07-22T15:00:00.000Z",
+      "resolvedAt": null
+    }
+  ]
+}

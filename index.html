@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DevJourney - Personal Developer Operating System for tracking learning, projects, journal, and blockers.">
+  <title>DevJourney - Personal Developer OS</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+</head>
+<body>
+  <div id="app-container">
+    <!-- Backdrop for Mobile Drawer -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+
+    <!-- App Sidebar -->
+    <aside id="app-sidebar" class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">DJ</div>
+        <span class="brand-title">DevJourney</span>
+        <span class="brand-version">v0.1</span>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <a href="#/dashboard" class="nav-item" data-route="dashboard">
+          <span class="nav-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="#/journal" class="nav-item" data-route="journal">
+          <span class="nav-icon">📓</span>
+          <span>Journal</span>
+        </a>
+        <a href="#/projects" class="nav-item" data-route="projects">
+          <span class="nav-icon">🚀</span>
+          <span>Projects</span>
+        </a>
+        <a href="#/blockers" class="nav-item" data-route="blockers">
+          <span class="nav-icon">🚨</span>
+          <span>Blockers</span>
+        </a>
+        <a href="#/mentor" class="nav-item" data-route="mentor">
+          <span class="nav-icon">🤖</span>
+          <span>Mentor</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btn-export-import" class="btn btn-secondary" style="width: 100%;">
+          <span>💾 Backup & Restore</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Shell Area -->
+    <div class="app-main">
+      <header id="app-header" class="app-header">
+        <div class="header-left">
+          <button id="mobile-nav-toggle" class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+            ☰
+          </button>
+          <h2 id="header-title" class="header-title">Dashboard</h2>
+        </div>
+
+        <div class="header-right">
+          <button id="theme-toggle-btn" class="btn btn-icon" title="Toggle Theme" aria-label="Toggle theme">
+            <span id="theme-toggle-icon">🌙</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dynamic Viewport -->
+      <main id="app-viewport" aria-live="polite">
+        <!-- Rendered view content appears here -->
+      </main>
+    </div>
+  </div>
+
+  <!-- Reusable Modal Slot -->
+  <div id="modal-container"></div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" aria-live="assertive"></div>
+
+  <!-- Main ES6 Module Application Entry Point -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
