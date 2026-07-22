@@ -25,6 +25,26 @@ export class DataService {
     this.saveState();
   }
 
+  async resetData() {
+    this.state = await StorageService.resetData();
+    this.saveState();
+  }
+
+  // Profile Methods
+  getProfile() {
+    return this.state?.profile || { name: 'Developer', title: 'Software Engineer', bio: '' };
+  }
+
+  updateProfile({ name, title, bio }) {
+    this.state.profile = {
+      name: name || '',
+      title: title || '',
+      bio: bio || ''
+    };
+    this.saveState();
+  }
+
+  // Dashboard Metrics & Statistics
   getStats() {
     const journal = this.state?.journal || [];
     const projects = this.state?.projects || [];
@@ -44,6 +64,113 @@ export class DataService {
     };
   }
 
+  // Goals & Roadmap Methods
+  getGoals() {
+    return this.state?.goals || [];
+  }
+
+  addGoal({ title, description }) {
+    const newGoal = {
+      id: 'goal-' + Date.now(),
+      title,
+      description: description || '',
+      completed: false,
+      createdAt: new Date().toISOString(),
+      completedAt: null,
+      subGoals: []
+    };
+    this.state.goals.unshift(newGoal);
+    this.saveState();
+    return newGoal;
+  }
+
+  addSubGoal(parentGoalId, { title, description }) {
+    const parentGoal = this.state.goals.find(g => g.id === parentGoalId);
+    if (parentGoal) {
+      const newSubGoal = {
+        id: 'sg-' + Date.now(),
+        title,
+        description: description || '',
+        completed: false,
+        createdAt: new Date().toISOString(),
+        completedAt: null
+      };
+      parentGoal.subGoals.push(newSubGoal);
+      this.saveState();
+      return newSubGoal;
+    }
+    return null;
+  }
+
+  toggleGoalCompletion(goalId) {
+    const goal = this.state.goals.find(g => g.id === goalId);
+    if (goal) {
+      goal.completed = !goal.completed;
+      goal.completedAt = goal.completed ? new Date().toISOString() : null;
+      // Mark all sub-goals to match parent
+      if (goal.subGoals) {
+        goal.subGoals.forEach(sg => {
+          sg.completed = goal.completed;
+          sg.completedAt = goal.completed ? new Date().toISOString() : null;
+        });
+      }
+      this.saveState();
+    }
+  }
+
+  toggleSubGoalCompletion(goalId, subGoalId) {
+    const goal = this.state.goals.find(g => g.id === goalId);
+    if (goal) {
+      const subGoal = goal.subGoals.find(sg => sg.id === subGoalId);
+      if (subGoal) {
+        subGoal.completed = !subGoal.completed;
+        subGoal.completedAt = subGoal.completed ? new Date().toISOString() : null;
+        
+        // Auto update parent completion if all subgoals are completed
+        const allCompleted = goal.subGoals.length > 0 && goal.subGoals.every(sg => sg.completed);
+        goal.completed = allCompleted;
+        goal.completedAt = allCompleted ? new Date().toISOString() : null;
+
+        this.saveState();
+      }
+    }
+  }
+
+  deleteGoal(goalId) {
+    this.state.goals = this.state.goals.filter(g => g.id !== goalId);
+    this.saveState();
+  }
+
+  deleteSubGoal(goalId, subGoalId) {
+    const goal = this.state.goals.find(g => g.id === goalId);
+    if (goal) {
+      goal.subGoals = goal.subGoals.filter(sg => sg.id !== subGoalId);
+      this.saveState();
+    }
+  }
+
+  getDashboardRoadmap() {
+    const goals = this.getGoals();
+    if (goals.length === 0) return null;
+
+    // Find first active (incomplete) goal, or fallback to first
+    const activeGoal = goals.find(g => !g.completed) || goals[0];
+    const subGoals = activeGoal.subGoals || [];
+    const completedCount = subGoals.filter(sg => sg.completed).length;
+    const totalCount = subGoals.length;
+    const nextSubGoal = subGoals.find(sg => !sg.completed) || null;
+
+    const progressPct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : (activeGoal.completed ? 100 : 0);
+
+    return {
+      activeGoal,
+      completedCount,
+      totalCount,
+      progressPct,
+      nextSubGoal
+    };
+  }
+
   // Journal Methods
   getJournalEntries() {
     return [...(this.state?.journal || [])].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -58,6 +185,8 @@ export class DataService {
       tags: Array.isArray(entry.tags) 
         ? entry.tags 
         : (entry.tags ? entry.tags.split(',').map(t => t.trim().toLowerCase()).filter(Boolean) : []),
+      goalId: entry.goalId || null,
+      subGoalId: entry.subGoalId || null,
       createdAt: new Date().toISOString()
     };
     this.state.journal.unshift(newEntry);
@@ -75,6 +204,14 @@ export class DataService {
     return this.state?.projects || [];
   }
 
+  getActiveProjects() {
+    return (this.state?.projects || []).filter(p => p.status === 'in-progress' || p.status === 'planned');
+  }
+
+  getCompletedProjects() {
+    return (this.state?.projects || []).filter(p => p.status === 'completed');
+  }
+
   addProject(project) {
     const newProject = {
       id: 'p-' + Date.now(),
@@ -89,6 +226,25 @@ export class DataService {
     this.state.projects.unshift(newProject);
     this.saveState();
     return newProject;
+  }
+
+  updateProject(id, updatedFields) {
+    const project = this.state.projects.find(p => p.id === id);
+    if (project) {
+      if (updatedFields.name !== undefined) project.name = updatedFields.name;
+      if (updatedFields.description !== undefined) project.description = updatedFields.description;
+      if (updatedFields.status !== undefined) project.status = updatedFields.status;
+      if (updatedFields.progress !== undefined) {
+        project.progress = Math.min(100, Math.max(0, parseInt(updatedFields.progress, 10) || 0));
+      }
+      if (updatedFields.repoUrl !== undefined) project.repoUrl = updatedFields.repoUrl;
+      if (updatedFields.demoUrl !== undefined) project.demoUrl = updatedFields.demoUrl;
+      project.updatedAt = new Date().toISOString();
+
+      this.saveState();
+      return project;
+    }
+    return null;
   }
 
   deleteProject(id) {
@@ -134,18 +290,32 @@ export class DataService {
 
   // AI Mentor Context Generator
   generateMentorContext() {
+    const profile = this.getProfile();
     const journal = this.getJournalEntries().slice(0, 5);
     const projects = this.getProjects();
     const openBlockers = this.getBlockers().filter(b => b.status === 'open');
+    const roadmap = this.getDashboardRoadmap();
     const stats = this.getStats();
 
     let text = `=== DEVJOURNEY MENTOR CONTEXT ===\n`;
-    text += `Date: ${new Date().toISOString().split('T')[0]}\n\n`;
+    text += `Date: ${new Date().toISOString().split('T')[0]}\n`;
+    text += `Developer: ${profile.name || 'Developer'} (${profile.title || 'Software Engineer'})\n\n`;
+
     text += `## PROGRESS SUMMARY\n`;
     text += `- Total Study Hours Logged: ${stats.totalHours} hrs\n`;
     text += `- Active Projects: ${stats.activeProjects}\n`;
     text += `- Open Technical Blockers: ${stats.openBlockers}\n`;
     text += `- Current Study Streak: ${stats.currentStreak} day(s)\n\n`;
+
+    if (roadmap && roadmap.activeGoal) {
+      text += `## CURRENT ROADMAP GOAL\n`;
+      text += `- Goal: ${roadmap.activeGoal.title}\n`;
+      text += `- Progress: ${roadmap.completedCount} / ${roadmap.totalCount} sub-goals completed (${roadmap.progressPct}%)\n`;
+      if (roadmap.nextSubGoal) {
+        text += `- Next Priority Sub-goal: ${roadmap.nextSubGoal.title}\n`;
+      }
+      text += `\n`;
+    }
 
     text += `## RECENT STUDY LOGS (Last 5 Entries)\n`;
     if (journal.length === 0) {

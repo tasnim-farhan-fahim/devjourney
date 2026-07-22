@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-color-theme="blue">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="DevJourney - Personal Developer Operating System for tracking learning, projects, journal, and blockers.">
   <title>DevJourney - Personal Developer OS</title>
   
+  <!-- Font Awesome 6 Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="./assets/css/variables.css">
   <link rel="stylesheet" href="./assets/css/layout.css">
@@ -19,38 +22,45 @@
     <!-- App Sidebar -->
     <aside id="app-sidebar" class="app-sidebar">
       <div class="sidebar-header">
-        <div class="brand-logo">DJ</div>
-        <span class="brand-title">DevJourney</span>
-        <span class="brand-version">v0.1</span>
+        <a href="#/dashboard" id="brand-home-link" class="brand-link" aria-label="DevJourney Dashboard Home">
+          <div class="brand-logo"><i class="fa-solid fa-compass"></i></div>
+          <span class="brand-title">DevJourney</span>
+          <span class="brand-version">v0.1.2</span>
+        </a>
       </div>
 
       <nav class="sidebar-nav" aria-label="Main Navigation">
         <a href="#/dashboard" class="nav-item" data-route="dashboard">
-          <span class="nav-icon">📊</span>
+          <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span>
           <span>Dashboard</span>
         </a>
+        <a href="#/goals" class="nav-item" data-route="goals">
+          <span class="nav-icon"><i class="fa-solid fa-bullseye"></i></span>
+          <span>Goals</span>
+        </a>
         <a href="#/journal" class="nav-item" data-route="journal">
-          <span class="nav-icon">📓</span>
+          <span class="nav-icon"><i class="fa-solid fa-book"></i></span>
           <span>Journal</span>
         </a>
         <a href="#/projects" class="nav-item" data-route="projects">
-          <span class="nav-icon">🚀</span>
+          <span class="nav-icon"><i class="fa-solid fa-diagram-project"></i></span>
           <span>Projects</span>
         </a>
         <a href="#/blockers" class="nav-item" data-route="blockers">
-          <span class="nav-icon">🚨</span>
+          <span class="nav-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
           <span>Blockers</span>
         </a>
         <a href="#/mentor" class="nav-item" data-route="mentor">
-          <span class="nav-icon">🤖</span>
+          <span class="nav-icon"><i class="fa-solid fa-user-tie"></i></span>
           <span>Mentor</span>
         </a>
       </nav>
 
       <div class="sidebar-footer">
-        <button id="btn-export-import" class="btn btn-secondary" style="width: 100%;">
-          <span>💾 Backup & Restore</span>
-        </button>
+        <a href="#/settings" class="nav-item" data-route="settings">
+          <span class="nav-icon"><i class="fa-solid fa-gear"></i></span>
+          <span>Settings</span>
+        </a>
       </div>
     </aside>
 
@@ -59,14 +69,14 @@
       <header id="app-header" class="app-header">
         <div class="header-left">
           <button id="mobile-nav-toggle" class="mobile-nav-toggle" aria-label="Toggle navigation menu">
-            ☰
+            <i class="fa-solid fa-bars"></i>
           </button>
           <h2 id="header-title" class="header-title">Dashboard</h2>
         </div>
 
         <div class="header-right">
-          <button id="theme-toggle-btn" class="btn btn-icon" title="Toggle Theme" aria-label="Toggle theme">
-            <span id="theme-toggle-icon">🌙</span>
+          <button id="theme-toggle-btn" class="btn btn-icon" title="Toggle Light/Dark Mode" aria-label="Toggle light or dark theme">
+            <span id="theme-toggle-icon"><i class="fa-solid fa-moon"></i></span>
           </button>
         </div>
       </header>

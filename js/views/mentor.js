@@ -11,13 +11,15 @@ export function renderMentor(viewportEl, dataService) {
         <p>Generate a compact summary of your progress, recent logs, and open blockers for AI mentor prompts.</p>
       </div>
       <button id="btn-copy-mentor-context" class="btn btn-primary">
-        📋 Copy to Clipboard
+        <i class="fa-solid fa-copy"></i> <span>Copy to Clipboard</span>
       </button>
     </div>
 
     <div class="card" style="margin-bottom: var(--space-lg);">
       <div class="card-header">
-        <h3 class="card-title">💡 How to use this with AI Mentors</h3>
+        <h3 class="card-title">
+          <i class="fa-solid fa-lightbulb" style="color: var(--status-warning); margin-right: 6px;"></i>How to use this with AI Mentors
+        </h3>
       </div>
       <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6;">
         Copy the generated context snippet below and paste it at the beginning of your prompt in ChatGPT, Claude, Gemini, or any AI assistant. 
@@ -27,7 +29,9 @@ export function renderMentor(viewportEl, dataService) {
 
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">📄 Formatted Context Output</h3>
+        <h3 class="card-title">
+          <i class="fa-solid fa-file-code" style="color: var(--accent-primary); margin-right: 6px;"></i>Formatted Context Output
+        </h3>
         <span class="badge badge-neutral">Plain Text / Markdown</span>
       </div>
 

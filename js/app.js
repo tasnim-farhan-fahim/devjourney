@@ -3,10 +3,12 @@ import { Router } from './router.js';
 import { initHeader } from './components/header.js';
 import { initSidebar } from './components/sidebar.js';
 import { renderDashboard } from './views/dashboard.js';
+import { renderGoals } from './views/goals.js';
 import { renderJournal } from './views/journal.js';
 import { renderProjects } from './views/projects.js';
 import { renderBlockers } from './views/blockers.js';
 import { renderMentor } from './views/mentor.js';
+import { renderSettings } from './views/settings.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Initialize Data Layer
@@ -23,6 +25,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       title: 'Dashboard',
       render: renderDashboard
     },
+    '/goals': {
+      title: 'Goals & Learning Roadmap',
+      render: renderGoals
+    },
     '/journal': {
       title: 'Daily Study Journal',
       render: renderJournal
@@ -38,6 +44,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     '/mentor': {
       title: 'AI Mentor Context Generator',
       render: renderMentor
+    },
+    '/settings': {
+      title: 'Application Settings',
+      render: renderSettings
     }
   };
 

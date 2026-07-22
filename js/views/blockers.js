@@ -13,19 +13,21 @@ export function renderBlockers(viewportEl, dataService) {
         <h1>Blockers & Problem Tracker</h1>
         <p>Document technical roadblocks, root causes, and verified resolutions.</p>
       </div>
-      <button id="btn-add-blocker" class="btn btn-danger">🚨 Report Blocker</button>
+      <button id="btn-add-blocker" class="btn btn-danger">
+        <i class="fa-solid fa-triangle-exclamation"></i> <span>Report Blocker</span>
+      </button>
     </div>
 
     <div style="display: flex; flex-direction: column; gap: var(--space-xl);">
       <!-- Open Blockers Section -->
       <div>
         <h3 class="card-title" style="margin-bottom: var(--space-md); color: var(--status-danger);">
-          🔴 Open Roadblocks (${openBlockers.length})
+          <i class="fa-solid fa-circle-exclamation"></i> Open Roadblocks (${openBlockers.length})
         </h3>
         
         ${openBlockers.length === 0 ? `
           <div class="empty-state">
-            <p>No open blockers! You are clear to code. 🎉</p>
+            <p>No open blockers! You are clear to code.</p>
           </div>
         ` : `
           <div class="data-list">
@@ -36,10 +38,10 @@ export function renderBlockers(viewportEl, dataService) {
                   <div class="flex-gap-sm">
                     <span class="badge badge-danger">Open</span>
                     <button class="btn btn-sm btn-primary resolve-blocker-btn" data-id="${b.id}">
-                      ✅ Resolve
+                      <i class="fa-solid fa-check"></i> Resolve
                     </button>
                     <button class="btn-icon delete-blocker-btn" data-id="${b.id}" title="Delete blocker" aria-label="Delete blocker">
-                      🗑️
+                      <i class="fa-solid fa-trash-can"></i>
                     </button>
                   </div>
                 </div>
@@ -66,7 +68,7 @@ export function renderBlockers(viewportEl, dataService) {
       <!-- Resolved Blockers History -->
       <div>
         <h3 class="card-title" style="margin-bottom: var(--space-md); color: var(--status-success);">
-          🟢 Resolved History (${resolvedBlockers.length})
+          <i class="fa-solid fa-circle-check"></i> Resolved History (${resolvedBlockers.length})
         </h3>
 
         ${resolvedBlockers.length === 0 ? `
@@ -84,7 +86,7 @@ export function renderBlockers(viewportEl, dataService) {
                   <div class="flex-gap-sm">
                     <span class="badge badge-success">Resolved</span>
                     <button class="btn-icon delete-blocker-btn" data-id="${b.id}" title="Delete blocker" aria-label="Delete blocker">
-                      🗑️
+                      <i class="fa-solid fa-trash-can"></i>
                     </button>
                   </div>
                 </div>
@@ -126,7 +128,9 @@ export function renderBlockers(viewportEl, dataService) {
       `,
       footerHTML: `
         <button class="btn btn-secondary" id="modal-cancel-blocker">Cancel</button>
-        <button class="btn btn-danger" id="modal-save-blocker">Save Blocker</button>
+        <button class="btn btn-danger" id="modal-save-blocker">
+          <i class="fa-solid fa-floppy-disk"></i> Save Blocker
+        </button>
       `
     });
 
@@ -164,7 +168,9 @@ export function renderBlockers(viewportEl, dataService) {
         `,
         footerHTML: `
           <button class="btn btn-secondary" id="modal-cancel-resolve">Cancel</button>
-          <button class="btn btn-primary" id="modal-save-resolve">Mark Resolved</button>
+          <button class="btn btn-primary" id="modal-save-resolve">
+            <i class="fa-solid fa-check"></i> Mark Resolved
+          </button>
         `
       });
 
